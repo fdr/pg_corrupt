@@ -1,1 +1,1 @@
-Placeholder
+Run tests with ``./t``
