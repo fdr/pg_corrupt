@@ -2,7 +2,7 @@
 import argparse
 import sys
 
-from pg_corrupt import scan
+from pg_corrupt import scan_rel
 
 
 def run(argv):
@@ -23,7 +23,7 @@ def run(argv):
     args = parser.parse_args(argv[1:])
 
     if args.action == 'scan-relation':
-        scan.scan(args.POSTGRES_URL, args.RELATION)
+        scan_rel.scan(args.POSTGRES_URL, args.RELATION)
     else:
         parser.error('No action specified')
 
