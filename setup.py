@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import os
 
-from distutils.core import setup
 from os import path
+from setuptools import setup
 
 
 def read(fname):
