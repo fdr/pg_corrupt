@@ -1,3 +1,6 @@
+import psycopg2
+
+
 class Ctid:
     def __init__(self, page, item):
         self.page = page
@@ -9,10 +12,12 @@ class Ctid:
         return cls(page, item)
 
     def __str__(self):
-        return '({0}, {1})'.format(self.page, self.item)
+        return "'({0}, {1})'".format(self.page, self.item)
 
     def next_page(self):
         return self.__class__(self.page + 1, 0)
 
     def next_item(self):
         return self.__class__(self.page, self.item + 1)
+
+psycopg2.extensions.register_adapter(Ctid, psycopg2.extensions.AsIs)
