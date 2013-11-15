@@ -35,10 +35,10 @@ def last_gettable_tup(postgres_url, relname, tid):
 
 def scan_rel(postgres_url, relname):
     err = None
-    ctid = Ctid(0, 0)
+    tid = Ctid(0, 0)
 
     while True:
-        tid, err = last_gettable_tup(postgres_url, relname, ctid)
+        tid, err = last_gettable_tup(postgres_url, relname, tid)
 
         if err is None:
             return
