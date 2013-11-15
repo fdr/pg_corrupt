@@ -52,4 +52,4 @@ def scan_rel(postgres_url, relname):
 def scan(postgres_url, relname):
     for tid, err in scan_rel(postgres_url, relname):
         for item, err in scan_page.scan(postgres_url, relname, tid.page):
-            print(item, err)
+            yield item, err

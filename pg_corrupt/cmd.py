@@ -23,7 +23,8 @@ def run(argv):
     args = parser.parse_args(argv[1:])
 
     if args.action == 'scan-relation':
-        scan_rel.scan(args.POSTGRES_URL, args.RELATION)
+        for item, err in scan_rel.scan(args.POSTGRES_URL, args.RELATION):
+            print(item, err)
     else:
         parser.error('No action specified')
 
