@@ -21,6 +21,7 @@ def identify_bad_ctid(conn, qrelname, text_tid):
             cur.execute(sql, params)
             cur.fetchall()
         except psycopg2.Error as e:
+            conn.rollback()
             return e
 
     return None
