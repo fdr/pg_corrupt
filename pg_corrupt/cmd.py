@@ -2,8 +2,6 @@
 import argparse
 import sys
 
-from pg_corrupt import scan_rel
-
 
 def run(argv):
     parser = argparse.ArgumentParser(
@@ -18,13 +16,30 @@ def run(argv):
         'scan-relation',
         parents=[parent_parser],
         help='attempt to find bad tuples in a relation')
-    scan_parser.add_argument('RELATION', help='a relation name to scan')
+    scan_parser.add_argument('RELATION', help='a relation name to scan.')
+    scan_parser.add_argument('--excise',
+                             help=('remove bad tuples, reporting the '
+                                   '"id" attribute.'))
 
     args = parser.parse_args(argv[1:])
 
     if args.action == 'scan-relation':
-        for item, err in scan_rel.scan(args.POSTGRES_URL, args.RELATION):
-            print(item, err)
+        import psycopg2
+
+        from pg_corrupt import scan_rel
+        from pg_corrupt import excise
+
+        from pg_corrupt.quoting import quote_ident
+
+        with psycopg2.connect(args.POSTGRES_URL) as conn:
+            qrelname = quote_ident(conn, args.RELATION)
+
+            for item, err in scan_rel.scan(args.POSTGRES_URL, qrelname):
+                print('Bad tuple:', item, err)
+
+                if args.excise:
+                    print('Excising: {0}'
+                          .format(excise.excise(conn, qrelname, item)))
     else:
         parser.error('No action specified')
 

@@ -49,7 +49,7 @@ def scan_rel(postgres_url, relname):
         tid = tid.next_page()
 
 
-def scan(postgres_url, relname):
-    for tid, err in scan_rel(postgres_url, relname):
-        for item, err in scan_page.scan(postgres_url, relname, tid.page):
+def scan(postgres_url, qrelname):
+    for tid, err in scan_rel(postgres_url, qrelname):
+        for item, err in scan_page.scan(postgres_url, qrelname, tid.page):
             yield item, err

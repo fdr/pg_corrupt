@@ -1,7 +1,6 @@
 import psycopg2
 
 from pg_corrupt.ctid import Ctid
-from pg_corrupt.quoting import quote_ident
 
 
 def items(conn, qrelname, base_page):
@@ -27,9 +26,8 @@ def identify_bad_ctid(conn, qrelname, text_tid):
     return None
 
 
-def scan(postgres_url, relname, page):
+def scan(postgres_url, qrelname, page):
     conn = psycopg2.connect(postgres_url)
-    qrelname = quote_ident(conn, relname)
     base_page = Ctid(page, 0)
 
     for item in items(conn, qrelname, base_page):
