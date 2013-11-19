@@ -7,7 +7,7 @@ from pg_corrupt.ctid import Ctid
 
 def make_copy_statement(relname, tid):
     return ("COPY (SELECT ctid, * FROM {0} WHERE ctid >= {1}) TO STDOUT "
-            "WITH CSV DELIMITER '|'"
+            "WITH DELIMITER '|'"
             .format(relname, tid))
 
 
